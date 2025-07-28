@@ -65,6 +65,8 @@ These masks delineate which pixels belong to the object of interest, beyond the 
 **Key Function: Depth Estimation and Movement Calculation**
 
 To extract actionable depth and positioning data for navigation, we used the following function:
+
+```
 def calculateMovementsToObjects(image, objects: list[str]):
 	"""using the image and object name provided, calculates the drone movements needed to reach the object"""
 	depth, _ = depth_anything(depth_model, image)
@@ -121,6 +123,7 @@ def calculateMovementsToObjects(image, objects: list[str]):
     	return None
 	else:
     	return info
+```
 
 <p style="text-align: justify;">
 This function takes in a list of identified objects by the LLM. It first applies YOLO-World to the image from the drone’s camera to identify the bounding boxes for each of those target objects. Then, it utilises Segment Anything to isolate those objects even further and later uses the depth map generated from Depth-Anything to estimate the straight-line distance from drone to object.
