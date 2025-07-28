@@ -6,9 +6,13 @@
 
 <p style="text-align: justify;">
 Globally, at least 2.2 billion people have blindness or low vision (BLV) (WHO, 2023). Such a figure positions accessibility research as an increasingly important and topical research area for the field of Human-Computer Interaction (HCI) (Mack, 2022). Multitudinous assistive technologies have been presented as a viable means to help the BLV in their everyday tasks. Among these, unmanned aerial vehicles (UAV), or drones, have emerged as a promising modality for assisting BLV individuals with navigation. (Aibid et al., 2024)
+</p>
 
+<p style="text-align: justify;">
 Recent advancements in Artificial Intelligence (AI), particularly the development of Large Language Models (LLMs), have enabled new and advanced forms of semantic understanding and reasoning (Hagos et al., 2024). One such advancement is the emergence of agentic systems.  This agentic concept in LLM-based applications refers to developing Artificial Intelligence (AI) systems that can act autonomously, make decisions and perform tasks with minimal human intervention. (Pankaj, 2024). This opens up novel possibilities for enhancing the interaction between BLV users and assistive technologies through natural language, as well as creating independent systems run entirely by AI.
+</p>
 
+<p style="text-align: justify;">
 This work presents an early-stage investigation into the use of agentic LLMs for closed-loop, vision-based navigational support in drones. We describe our prototype architecture, analyse its design trade-offs, and assess its strengths and limitations in the context of potential applications for BLV community.
 </p>
 
@@ -61,7 +65,6 @@ These masks delineate which pixels belong to the object of interest, beyond the 
 **Key Function: Depth Estimation and Movement Calculation**
 
 To extract actionable depth and positioning data for navigation, we used the following function:
-
 def calculateMovementsToObjects(image, objects: list[str]):
 	"""using the image and object name provided, calculates the drone movements needed to reach the object"""
 	depth, _ = depth_anything(depth_model, image)
