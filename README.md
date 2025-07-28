@@ -1,27 +1,28 @@
 # Vision-Based-Navigation-for-Webots-Drone
 
-Exploring the Utility of Agentic LLM-Based Systems in Supporting Goal-Driven Navigation for UAVs for BLVs
+**Exploring the Utility of Agentic LLM-Based Systems in Supporting Goal-Driven Navigation for UAVs for BLVs**
 
-Introduction
+Introduction:
 Globally, at least 2.2 billion people have blindness or low vision (BLV) (WHO, 2023). Such a figure positions accessibility research as an increasingly important and topical research area for the field of Human-Computer Interaction (HCI) (Mack, 2022). Multitudinous assistive technologies have been presented as a viable means to help the BLV in their everyday tasks. Among these, unmanned aerial vehicles (UAV), or drones, have emerged as a promising modality for assisting BLV individuals with navigation. (Aibid et al., 2024)
 
 Recent advancements in Artificial Intelligence (AI), particularly the development of Large Language Models (LLMs), have enabled new and advanced forms of semantic understanding and reasoning (Hagos et al., 2024). One such advancement is the emergence of agentic systems.  This agentic concept in LLM-based applications refers to developing Artificial Intelligence (AI) systems that can act autonomously, make decisions and perform tasks with minimal human intervention. (Pankaj, 2024). This opens up novel possibilities for enhancing the interaction between BLV users and assistive technologies through natural language, as well as creating independent systems run entirely by AI.
 
 This work presents an early-stage investigation into the use of agentic LLMs for closed-loop, vision-based navigational support in drones. We describe our prototype architecture, analyse its design trade-offs, and assess its strengths and limitations in the context of potential applications for BLV community.
 
-Background
+Background:
 Prior research has explored the use of drones to assist visually impaired individuals with a primary focus on vision-based tasks. For instance, in the Flying Guide Dog, Tan et al. (2021) leveraged the predictive capabilities of segmentation models to help discover walkable areas and identify pedestrian lights in order to assist BLV users in walking outdoors.
 On the other hand, Zhang et al.'s (2025) paper involved Vision Language Models which employed advanced reasoning on complex semantic signs, translating these into mobility information to the user.
 
 However, these systems often relied on hardcoded destinations. There was also limited flexibility in interactions with the users. The potential of LLMs to act as high-level cognitive agents that interpret commands and plan actions remains underexplored.
 In order to address this gap, we investigate whether agentic LLM-based systems can serve as a more adaptable and semantically rich alternative for goal-driven drone navigation, particularly for BLV users.
 
-Methods
+Methods:
 We adopt a supervisor-agent architecture as shown in Fig. 1. The Interpreter serves as the graph’s initial entry point, responsible for understanding and extracting the user's intent as well as identifying the target destination from natural language queries. Once the objective is clear, the Plan Manager takes over, orchestrating the overall strategy required to achieve the goal. It accomplishes this by coordinating with two specialised sub-agents: the Perceptor Agent and the Planner Agent. The Perceptor Agent is tasked with locating the target destination and identifying any obstacles or surrounding elements in the environment. It supplies the Plan Manager with positional and depth data for the identified objects. Based on these spatial inputs, the Planner Agent then formulates a series of steps that outlines how the drone should navigate toward its target.
 After the plan is constructed, it is handed off to the Step Manager, which is responsible for executing the strategy incrementally. This is accomplished through direct control of the drone using commands such as rotateDrone and moveDroneForward. Finally, the Verifier Agent ensures the success of the mission by checking whether the drone has arrived at the intended destination. If the destination has been reached, the multi-agent system is exited. However, if the drone has not yet reached its goal, the Verifier re-engages the Plan Manager to initiate a new round of replanning. This helps to ensure an adaptive and robust system.
 
-
+<img width="432" height="380" alt="image2" src="https://github.com/user-attachments/assets/bff6c40e-af7e-41f4-8d86-6db5858aca92" />
 Fig 1. Overall Framework for Agentic Model
+
 Simulation Setup
 We implemented and tested our system in the Webots simulator due to its wide usage by industry researchers in robotics and AI (Webots, n.d.). The Mavic-2-Pro drone environment was used. The drone was equipped only with a forward-facing camera, to match the capabilities of the real DJI Tello drone we plan to test with BLV participants.
 
@@ -104,11 +105,12 @@ def calculateMovementsToObjects(image, objects: list[str]):
 This function takes in a list of identified objects by the LLM. It first applies YOLO-World to the image from the drone’s camera to identify the bounding boxes for each of those target objects. Then, it utilises Segment Anything to isolate those objects even further and later uses the depth map generated from Depth-Anything to estimate the straight-line distance from drone to object.
 Below is an illustration on how the function works.
 
- 
+<img width="1536" height="1024" alt="image3" src="https://github.com/user-attachments/assets/7797afd6-cf3a-49b9-8980-e5a60a978a5a" />
 Fig 2. Illustration on how the three models are used to derive depth estimation
 
 Referring to Fig 3, using the field of view of the camera, the horizontal and vertical angles can be derived which, together with the depth estimation, allows us to attain the relative coordinates of the object relative to the drone’s position. The perceptor agent uses this output to inform the planner agent, allowing the agent to better plan the navigational steps for the drone.
 
+<img width="1536" height="1024" alt="image1" src="https://github.com/user-attachments/assets/b03a19e3-f1a1-427e-87fe-029fed5433bc" />
 Fig 3. Illustration showing how relative coordinates of object is derived from straight-line distance
 
 Results
